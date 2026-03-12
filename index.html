@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Data Analyst · Mode & Luxe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1714;
+    --gold: #B8965A;
+    --gold-light: #D4AF72;
+    --warm-grey: #8C8279;
+    --beige: #E8E0D0;
+    --accent: #C17F3E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  body { cursor: none; }
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 60px;
+    background: linear-gradient(to bottom, rgba(245,240,232,0.98), transparent);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    font-weight: 300;
+    color: var(--warm-grey);
+    letter-spacing: 0.05em;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+  .hero-desc {
+    font-size: 0.85rem;
+    line-height: 1.9;
+    color: #5A5550;
+    max-width: 400px;
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 4px;
+    transition: color 0.3s, gap 0.3s;
+  }
+  .hero-cta:hover { color: var(--gold); gap: 24px; }
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-visual {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--dark) 0%, #2C251E 60%, #3D2E1E 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,150,90,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,150,90,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-data-viz {
+    position: relative; z-index: 2;
+    width: 380px; height: 380px;
+  }
+  .viz-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(184,150,90,0.3);
+    animation: rotate 20s linear infinite;
+  }
+  .viz-ring:nth-child(1) { inset: 0; animation-duration: 25s; }
+  .viz-ring:nth-child(2) { inset: 30px; animation-duration: 18s; animation-direction: reverse; border-color: rgba(184,150,90,0.2); }
+  .viz-ring:nth-child(3) { inset: 70px; animation-duration: 12s; border-color: rgba(184,150,90,0.4); }
+  .viz-center {
+    position: absolute;
+    inset: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,150,90,0.15), transparent);
+    border: 1px solid rgba(184,150,90,0.6);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 4px;
+  }
+  .viz-center-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+  .viz-center-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(184,150,90,0.6);
+  }
+  .viz-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform-origin: 0 0;
+  }
+  .viz-bar-group {
+    position: absolute;
+    bottom: 20px; left: 20px; right: 20px;
+    display: flex; align-items: flex-end; gap: 6px; height: 80px;
+  }
+  .viz-bar {
+    flex: 1;
+    background: linear-gradient(to top, rgba(184,150,90,0.7), rgba(184,150,90,0.2));
+    border-radius: 2px 2px 0 0;
+    animation: barGrow 2s ease-out forwards;
+    transform-origin: bottom;
+    transform: scaleY(0);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--warm-grey);
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { position: relative; }
+  .section-header {
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 64px;
+  }
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--beige), transparent);
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 120px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-left { position: sticky; top: 120px; }
+  .about-portrait {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #2C251E, #1A1714);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .about-portrait::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(184,150,90,0.1));
+  }
+  .portrait-initials {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    color: rgba(184,150,90,0.3);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+  .about-contact { display: flex; flex-direction: column; gap: 12px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.75rem; color: var(--warm-grey);
+    letter-spacing: 0.05em;
+  }
+  .contact-dot {
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .about-right {}
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dark);
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+  .about-text strong {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--gold);
+  }
+  .about-body {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: #5A5550;
+    margin-bottom: 48px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border: 1px solid var(--beige);
+    color: var(--warm-grey);
+    border-radius: 1px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── SKILLS ── */
+  .skills {
+    padding: 120px 80px;
+    background: var(--dark);
+    color: var(--cream);
+  }
+  .skills .section-title { color: var(--cream); }
+  .skills .section-line { background: linear-gradient(to right, rgba(184,150,90,0.3), transparent); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .skill-card {
+    padding: 48px 40px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(184,150,90,0.1);
+    transition: background 0.4s, border-color 0.4s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    background: rgba(184,150,90,0.05);
+    border-color: rgba(184,150,90,0.3);
+  }
+  .skill-icon {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .skill-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .skill-desc {
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 24px;
+  }
+  .skill-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tool {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(184,150,90,0.7);
+    border: 1px solid rgba(184,150,90,0.2);
+    padding: 4px 10px;
+    border-radius: 1px;
+  }
+  .skill-bar-container { margin-top: 20px; }
+  .skill-bar-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin-bottom: 6px;
+  }
+  .skill-bar-track {
+    height: 1px;
+    background: rgba(184,150,90,0.15);
+    position: relative; overflow: hidden;
+  }
+  .skill-bar-fill {
+    position: absolute; left: 0; top: 0; height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    animation: barFill 1.5s ease-out forwards;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* ── PROJECTS ── */
+  .projects { padding: 120px 80px; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .project-card {
+    background: white;
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s;
+    cursor: default;
+  }
+  .project-card:hover { transform: translateY(-4px); }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #2C251E, var(--dark));
+    color: var(--cream);
+  }
+  .project-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 300;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .project-card.featured .project-title { color: var(--gold-light); }
+  .project-desc {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: #6A635C;
+    margin-bottom: 32px;
+  }
+  .project-card.featured .project-desc { color: rgba(245,240,232,0.6); }
+  .project-metrics {
+    display: flex; gap: 40px;
+    margin-bottom: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--beige);
+    border-bottom: 1px solid var(--beige);
+  }
+  .project-card.featured .project-metrics {
+    border-color: rgba(184,150,90,0.2);
+  }
+  .metric-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--gold);
+    display: block;
+  }
+  .metric-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack-badge {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    background: var(--cream);
+    color: var(--warm-grey);
+    border-radius: 1px;
+  }
+  .project-card.featured .stack-badge {
+    background: rgba(184,150,90,0.1);
+    color: rgba(184,150,90,0.8);
+  }
+  .project-number {
+    position: absolute;
+    right: 40px; bottom: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.04);
+    font-style: italic;
+    line-height: 1;
+  }
+  .project-card.featured .project-number { color: rgba(255,255,255,0.04); }
+
+  /* ── EXPERIENCE ── */
+  .experience {
+    padding: 120px 80px;
+    background: #F0EBE1;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 64px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -44px; top: 8px;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 4px rgba(184,150,90,0.2);
+  }
+  .timeline-period {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .timeline-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    margin-bottom: 4px;
+  }
+  .timeline-company {
+    font-size: 0.8rem;
+    color: var(--warm-grey);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .timeline-body {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: #5A5550;
+    max-width: 600px;
+  }
+  .timeline-achievements {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: 16px;
+  }
+  .achievement {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 0.8rem;
+    color: #5A5550;
+    line-height: 1.7;
+  }
+  .achievement::before {
+    content: '—';
+    color: var(--gold);
+    flex-shrink: 0;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── EDUCATION ── */
+  .education { padding: 80px 80px; }
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .edu-card {
+    padding: 40px 32px;
+    border: 1px solid var(--beige);
+    transition: border-color 0.3s;
+  }
+  .edu-card:hover { border-color: var(--gold); }
+  .edu-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: rgba(184,150,90,0.3);
+    margin-bottom: 16px;
+  }
+  .edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .edu-school {
+    font-size: 0.75rem;
+    color: var(--warm-grey);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CONTACT / FOOTER ── */
+  .contact {
+    padding: 120px 80px;
+    background: var(--dark);
+    color: var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: 'DATA';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20vw;
+    color: rgba(184,150,90,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 300;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .contact-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+  .contact-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 48px;
+  }
+  .contact-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .contact-email {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 56px;
+    display: block;
+  }
+  .contact-links {
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 80px;
+  }
+  .contact-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-link:hover { color: var(--gold); }
+  .footer-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(184,150,90,0.4));
+    margin: 0 auto 24px;
+  }
+  .footer-copy {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,240,232,0.2);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+  @keyframes barGrow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  @keyframes barFill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.8s ease-out forwards; opacity: 0; }
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.4s; }
+  .delay-3 { animation-delay: 0.6s; }
+  .delay-4 { animation-delay: 0.8s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 100px 24px 60px; }
+    .hero-right { height: 50vw; }
+    .about { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+    .about-left { position: relative; top: auto; }
+    .about-portrait { max-width: 280px; }
+    .skills { padding: 80px 24px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects { padding: 80px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .experience { padding: 80px 24px; }
+    .education { padding: 60px 24px; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Fatima Aagour</div>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#experience">Parcours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-up">Data Analyst · Mode & Luxe</div>
+    <h1 class="hero-name fade-up delay-1">Fatima<br><em>Aagour</em></h1>
+    <p class="hero-title fade-up delay-2">Transformer la donnée en décision</p>
+    <p class="hero-desc fade-up delay-3">
+      Analytics Engineer & Data Analyst — Master Statistiques, spécialisée BigQuery, dbt et Power BI. Je transforme les données en indicateurs fiables et en décisions actionnables, avec une passion pour l'univers de la mode et du luxe.
+    </p>
+    <a href="#projects" class="hero-cta fade-up delay-4">
+      Voir mes projets →
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-grid-overlay"></div>
+      <div class="hero-data-viz">
+        <div class="viz-ring"></div>
+        <div class="viz-ring"></div>
+        <div class="viz-ring"></div>
+        <div class="viz-center">
+          <span class="viz-center-num">34</span>
+          <span class="viz-center-label">marchés</span>
+        </div>
+        <div class="viz-bar-group">
+          <div class="viz-bar" style="height:45%;animation-delay:.1s"></div>
+          <div class="viz-bar" style="height:70%;animation-delay:.2s"></div>
+          <div class="viz-bar" style="height:55%;animation-delay:.3s"></div>
+          <div class="viz-bar" style="height:90%;animation-delay:.4s"></div>
+          <div class="viz-bar" style="height:65%;animation-delay:.5s"></div>
+          <div class="viz-bar" style="height:80%;animation-delay:.6s"></div>
+          <div class="viz-bar" style="height:75%;animation-delay:.7s"></div>
+          <div class="viz-bar" style="height:95%;animation-delay:.8s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">Profil</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-portrait">
+      <div class="portrait-initials">FA</div>
+    </div>
+    <div class="about-contact">
+      <div class="contact-item"><div class="contact-dot"></div>Paris, France</div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="mailto:aagour.fati@gmail.com" style="color:inherit;text-decoration:none;">aagour.fati@gmail.com</a></div>
+      <div class="contact-item"><div class="contact-dot"></div>+33 7 66 44 18 81</div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="https://www.linkedin.com/in/fatima-zahra-aagour/" target="_blank" style="color:var(--warm-grey);text-decoration:none;">linkedin.com/in/fatima-zahra-aagour</a></div>
+    </div>
+  </div>
+  <div class="about-right">
+    <p class="about-text">
+      Analytics Engineer & Data Analyst — <strong>Master Statistiques Bac+5</strong>, spécialisée dans la fiabilisation des données et la performance analytique.
+    </p>
+    <p class="about-body">
+      Expérience concrète sur BigQuery (GCP), dbt et Power BI : conception de pipelines SQL, modélisation analytique, contrôles qualité et dashboards orientés décision. Habituée à collaborer avec les équipes Data, Produit et Métiers sur des sujets critiques de gouvernance des données.
+    </p>
+    <p class="about-body">
+      Passionnée par l'univers de la mode et du luxe, je veux mettre cette rigueur technique au service d'une maison d'exception — là où chaque indicateur doit refléter l'excellence du produit.
+    </p>
+    <div class="tags">
+      <span class="tag">SQL · BigQuery</span>
+      <span class="tag">dbt</span>
+      <span class="tag">Power BI · Looker</span>
+      <span class="tag">Python · Pandas</span>
+      <span class="tag">Airflow</span>
+      <span class="tag">Analytics Engineering</span>
+      <span class="tag">Contrôle qualité data</span>
+      <span class="tag">Mode & Luxe</span>
+      <span class="tag">Anglais pro</span>
+      <span class="tag">4 langues</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Compétences</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-icon">◈</span>
+      <div class="skill-name">SQL & BigQuery</div>
+      <p class="skill-desc">Requêtes complexes, fenêtres analytiques, optimisation de coûts. Extraction et manipulation de données à grande échelle dans Google BigQuery.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">BigQuery</span>
+        <span class="skill-tool">SQL avancé</span>
+        <span class="skill-tool">Window functions</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Maîtrise</span><span>Expert</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:92%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">◉</span>
+      <div class="skill-name">dbt · Analytics Engineering</div>
+      <p class="skill-desc">Modélisation, transformation et fiabilisation des données. Tests de qualité, documentation, traçabilité des indicateurs. Approche DataOps rigoureuse.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">dbt Core</span>
+        <span class="skill-tool">Tests & Docs</span>
+        <span class="skill-tool">Lineage</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Maîtrise</span><span>Avancé</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">◇</span>
+      <div class="skill-name">Power BI</div>
+      <p class="skill-desc">Conception de dashboards orientés décision. Modèles de données DAX, design d'indicateurs clairs et actionnables pour les équipes business et filiales internationales.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">DAX</span>
+        <span class="skill-tool">Power Query</span>
+        <span class="skill-tool">Data Modeling</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Maîtrise</span><span>Expert</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">◈</span>
+      <div class="skill-name">Python</div>
+      <p class="skill-desc">Analyse exploratoire, automatisation de pipelines de données, visualisation et modèles statistiques appliqués aux problématiques e-commerce et retail.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">Pandas</span>
+        <span class="skill-tool">NumPy</span>
+        <span class="skill-tool">Matplotlib</span>
+        <span class="skill-tool">Scikit-learn</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Maîtrise</span><span>Avancé</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">◉</span>
+      <div class="skill-name">Data Pipeline & GCP</div>
+      <p class="skill-desc">Architecture de flux de données sur Google Cloud Platform. Surveillance de la qualité et fraîcheur des jeux de données, gestion des anomalies et ruptures de flux.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">GCP</span>
+        <span class="skill-tool">Cloud Storage</span>
+        <span class="skill-tool">Dataform</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Maîtrise</span><span>Intermédiaire</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">◇</span>
+      <div class="skill-name">Mode & E-commerce</div>
+      <p class="skill-desc">Connaissance fine des codes du luxe, des enjeux omnicanaux et de la saisonnalité des collections. Sensibilité aux KPIs spécifiques au retail de luxe digital.</p>
+      <div class="skill-tools">
+        <span class="skill-tool">E-commerce</span>
+        <span class="skill-tool">Omnicanal</span>
+        <span class="skill-tool">KPIs Luxe</span>
+      </div>
+      <div class="skill-bar-container">
+        <div class="skill-bar-label"><span>Passion</span><span>Expertise</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Projets</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Featured - REAL PROJECT -->
+    <div class="project-card featured">
+      <span class="project-tag">Projet réel · Per Sé Beauty (Prose inc.) · 2024</span>
+      <h3 class="project-title">Intégration de la dureté de l'eau<br>dans GeoBeauty</h3>
+      <p class="project-desc">
+        Mission de fin d'études chez Per Sé Beauty (filiale française de Prose inc.) : intégration de la variable environnementale "Water Hardness" dans le système de personnalisation produit GeoBeauty. Création d'un modèle BigQuery, modélisation dbt avec interpolation KNN géospatiale, orchestration Airflow, déploiement en staging puis en production. Couverture étendue à 3 pays (États-Unis, Canada, Royaume-Uni) — la variable est désormais visible par les utilisateurs finaux sur le site Prose.
+      </p>
+      <div class="project-metrics">
+        <div>
+          <span class="metric-value">3</span>
+          <span class="metric-label">Pays couverts</span>
+        </div>
+        <div>
+          <span class="metric-value">5k+</span>
+          <span class="metric-label">Tests dbt passés</span>
+        </div>
+        <div>
+          <span class="metric-value">∞</span>
+          <span class="metric-label">Déployé en prod</span>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-badge">BigQuery</span>
+        <span class="stack-badge">dbt</span>
+        <span class="stack-badge">Airflow</span>
+        <span class="stack-badge">Python</span>
+        <span class="stack-badge">SQL</span>
+        <span class="stack-badge">GitLab CI/CD</span>
+        <span class="stack-badge">Interpolation KNN</span>
+      </div>
+      <div class="project-number">01</div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <span class="project-tag">Projet GitHub · EDA + Segmentation clients</span>
+      <h3 class="project-title">Hermès Sales Performance Analysis<br>2022–2024</h3>
+      <p class="project-desc">
+        Analyse complète des ventes d'une maison de luxe sur données simulées : performance par région, saison et catégorie, top produits, et segmentation clients RFM + K-Means (4 clusters). Dashboard interactif Plotly/Dash et Notebook Jupyter narratif. Stack Python end-to-end avec visualisations prêtes à l'emploi.
+      </p>
+      <div class="project-metrics">
+        <div>
+          <span class="metric-value" style="color:var(--gold)">85M€</span>
+          <span class="metric-label">CA simulé</span>
+        </div>
+        <div>
+          <span class="metric-value" style="color:var(--gold)">4</span>
+          <span class="metric-label">Segments clients</span>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-badge">Python</span>
+        <span class="stack-badge">Pandas</span>
+        <span class="stack-badge">Scikit-learn</span>
+        <span class="stack-badge">Plotly / Dash</span>
+        <span class="stack-badge">K-Means</span>
+        <span class="stack-badge">RFM</span>
+      </div>
+      <div class="project-number" style="color:rgba(0,0,0,0.03)">02</div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card">
+      <span class="project-tag">Projet GitHub · Google Trends · Mode</span>
+      <h3 class="project-title">Fashion Trends Analysis<br>Google Trends 2022–2025</h3>
+      <p class="project-desc">
+        Analyse de l'évolution de trois tendances mode majeures (Y2K Fashion, Quiet Luxury, Dopamine Dressing) via l'API Google Trends (Pytrends). Données réelles, visualisations enrichies (time series, heatmap saisonnière, dashboard de synthèse) et insights actionnables sur la dynamique des tendances 2022–2025.
+      </p>
+      <div class="project-metrics">
+        <div>
+          <span class="metric-value" style="color:var(--gold)">3</span>
+          <span class="metric-label">Tendances analysées</span>
+        </div>
+        <div>
+          <span class="metric-value" style="color:var(--gold)">4</span>
+          <span class="metric-label">Visualisations</span>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-badge">Python</span>
+        <span class="stack-badge">Pytrends</span>
+        <span class="stack-badge">Pandas</span>
+        <span class="stack-badge">Matplotlib</span>
+        <span class="stack-badge">Google Trends</span>
+      </div>
+      <div class="project-number" style="color:rgba(0,0,0,0.03)">03</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="experience" id="dashboard" style="background:#1A1714; padding:60px 0;">
+  <div class="section-header">
+    <span class="section-number" style="color:#8C8279">—</span>
+    <h2 class="section-title" style="color:#F5F0E8">Dashboard interactif</h2>
+    <div class="section-line" style="background:#B8965A"></div>
+  </div>
+  <div style="max-width:1140px; margin:0 auto; padding:0 40px;">
+    <p style="color:#8C8279; font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:20px;">Projet 02 · Hermès Sales Analysis · Données simulées</p>
+    <div id="dash-wrapper" style="border:1px solid #3a3530; background:#FDFAF5;">
+      <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap');
+:root{--gold:#B8965A;--gold2:#D4AF72;--dark:#1A1714;--cream:#F5F0E8;--beige:#EDE6D8;--warm:#8C8279;--card:#FDFAF5;--border:#E5DDD0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'Jost',sans-serif;color:var(--dark);}
+.hdr{background:var(--dark);padding:22px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--gold);}
+.hdr h1{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--cream);letter-spacing:.12em;text-transform:uppercase;}
+.hdr p{font-size:.62rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-top:3px;}
+.badge{font-size:.6rem;color:var(--warm);letter-spacing:.14em;text-transform:uppercase;border:1px solid #3a3530;padding:5px 12px;}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
+.kpi{padding:22px 28px;border-right:1px solid var(--border);transition:background .2s;}
+.kpi:last-child{border-right:none;} .kpi:hover{background:var(--beige);}
+.kpi-lbl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:7px;}
+.kpi-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1;}
+.kpi-val em{font-style:normal;font-size:.95rem;color:var(--gold);margin-left:3px;}
+.kpi-sub{font-size:.58rem;color:var(--warm);margin-top:5px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:24px 40px;}
+.card{background:var(--card);border:1px solid var(--border);padding:18px 20px;}
+.card.wide{grid-column:1/-1;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-weight:400;letter-spacing:.05em;margin-bottom:3px;}
+.card-sub{font-size:.56rem;color:var(--warm);letter-spacing:.14em;text-transform:uppercase;padding-bottom:11px;border-bottom:1px solid var(--border);margin-bottom:13px;}
+.tabs{display:flex;margin-bottom:12px;border-bottom:1px solid var(--border);}
+.tab{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--warm);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:7px 14px;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif;}
+.tab.on{color:var(--dark);border-bottom-color:var(--gold);}
+.pane{display:none;} .pane.on{display:block;}
+canvas{display:block;}
+.tip{position:fixed;background:var(--dark);color:var(--cream);padding:5px 10px;font-size:.68rem;border-radius:2px;pointer-events:none;display:none;z-index:999;white-space:nowrap;font-family:'Jost',sans-serif;}
+footer{text-align:center;padding:14px;font-size:.56rem;color:var(--warm);letter-spacing:.12em;text-transform:uppercase;border-top:1px solid var(--border);}
+      </style>
+      <div class="tip" id="tip"></div>
+<header class="hdr">
+  <div><h1>Sales Performance Dashboard</h1><p>Hermès · Données simulées · 2022 – 2024</p></div>
+  <div class="badge">Fatima Aagour · Data Analyst</div>
+</header>
+<div class="kpis">
+  <div class="kpi"><div class="kpi-lbl">Chiffre d'affaires</div><div class="kpi-val">85<em>M€</em></div><div class="kpi-sub">2022 – 2024</div></div>
+  <div class="kpi"><div class="kpi-lbl">Panier moyen</div><div class="kpi-val">5 663<em>€</em></div><div class="kpi-sub">par transaction</div></div>
+  <div class="kpi"><div class="kpi-lbl">Clients actifs</div><div class="kpi-val">2 982</div><div class="kpi-sub">sur la période</div></div>
+  <div class="kpi"><div class="kpi-lbl">Top région</div><div class="kpi-val" style="font-size:1.6rem">Chine</div><div class="kpi-sub">Asie · 18.9M€</div></div>
+</div>
+<div class="grid">
+  <div class="card wide"><div class="card-title">Évolution mensuelle du CA</div><div class="card-sub">Par année · 2022 – 2024</div><canvas id="c-monthly" height="210"></canvas></div>
+  <div class="card"><div class="card-title">CA par région</div><div class="card-sub">Classement décroissant</div><canvas id="c-region" height="250"></canvas></div>
+  <div class="card"><div class="card-title">Répartition par catégorie</div><div class="card-sub">Part du CA total</div><canvas id="c-cat" height="250"></canvas></div>
+  <div class="card"><div class="card-title">Saisonnalité</div><div class="card-sub">CA par saison</div><canvas id="c-season" height="230"></canvas></div>
+  <div class="card"><div class="card-title">Top 8 produits</div><div class="card-sub">Par chiffre d'affaires</div><canvas id="c-prod" height="230"></canvas></div>
+  <div class="card wide">
+    <div class="card-title">Segmentation clients — RFM + K-Means</div>
+    <div class="card-sub">4 segments identifiés</div>
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('seg','dist',this)">Répartition</button>
+      <button class="tab" onclick="showTab('seg','rfm',this)">Profil RFM</button>
+    </div>
+    <div id="seg-dist" class="pane on"><canvas id="c-seg" height="190"></canvas></div>
+    <div id="seg-rfm" class="pane"><canvas id="c-rfm" height="190"></canvas></div>
+  </div>
+</div>
+<footer>Données simulées à des fins analytiques · Fatima Aagour · Data Analyst · <a href="mailto:aagour.fati@gmail.com" style="color:inherit;text-decoration:none;">aagour.fati@gmail.com</a></footer>
+<script>
+const MONTHLY=[{y:2022,m:1,v:1682700},{y:2022,m:2,v:1970110},{y:2022,m:3,v:2038360},{y:2022,m:4,v:1395160},{y:2022,m:5,v:1650750},{y:2022,m:6,v:1789610},{y:2022,m:7,v:1600650},{y:2022,m:8,v:1951920},{y:2022,m:9,v:1976190},{y:2022,m:10,v:2088450},{y:2022,m:11,v:2483590},{y:2022,m:12,v:2931110},{y:2023,m:1,v:1956150},{y:2023,m:2,v:2705360},{y:2023,m:3,v:2385680},{y:2023,m:4,v:2263730},{y:2023,m:5,v:2040540},{y:2023,m:6,v:2287490},{y:2023,m:7,v:1731920},{y:2023,m:8,v:2387070},{y:2023,m:9,v:2482600},{y:2023,m:10,v:2230360},{y:2023,m:11,v:2561090},{y:2023,m:12,v:3564330},{y:2024,m:1,v:2168380},{y:2024,m:2,v:2780740},{y:2024,m:3,v:2686510},{y:2024,m:4,v:2354490},{y:2024,m:5,v:2450320},{y:2024,m:6,v:2720490},{y:2024,m:7,v:2174940},{y:2024,m:8,v:2670510},{y:2024,m:9,v:3125890},{y:2024,m:10,v:2695530},{y:2024,m:11,v:3227500},{y:2024,m:12,v:3741250}];
+const REGIONS=[{n:"Asie — Chine",v:18952940},{n:"Europe — France",v:17475590},{n:"Amériques — USA",v:13220370},{n:"Europe — Autres",v:11936780},{n:"Asie — Japon",v:9347510},{n:"Asie — Corée",v:5670140},{n:"Moyen-Orient",v:4863460},{n:"Amériques — Autres",v:3484680}];
+const CATS=[{n:"Maroquinerie",v:54794570},{n:"Horlogerie",v:11394810},{n:"Prêt-à-Porter",v:8209660},{n:"Soie & Textiles",v:3926600},{n:"Bijouterie",v:3655430},{n:"Art de Vivre",v:2333820},{n:"Parfums",v:636580}];
+const SEASONS=[{n:"Printemps",v:19265540},{n:"Été",v:19314600},{n:"Automne",v:22871200},{n:"Hiver",v:23500130}];
+const PRODS=[{n:"Birkin 35",v:10065510},{n:"Birkin 25",v:8919740},{n:"Kelly 32",v:8416580},{n:"Kelly 28",v:8116450},{n:"Constance 24",v:6861650},{n:"Lindy 26",v:5051080},{n:"Bolide 31",v:4211920},{n:"Slim d'Hermès",v:3744440}];
+const SEGS=[{n:"Clients Fidèles",v:1056},{n:"Nouveaux Clients",v:950},{n:"Clients à Risque",v:510},{n:"Champions",v:466}];
+const RFM=[{n:"Champions",freq:8.4,mon:56083},{n:"Clients Fidèles",freq:5.9,mon:33317},{n:"Clients à Risque",freq:3.0,mon:16683},{n:"Nouveaux Clients",freq:3.5,mon:15922}];
+const C=['#B8965A','#1A1714','#8C8279','#D4AF72','#C17F3E','#5A4A3A','#c8bfb0'];
+const SEGC={'Champions':'#B8965A','Clients Fidèles':'#1A1714','Clients à Risque':'#8C8279','Nouveaux Clients':'#D4AF72'};
+const YRCLR={2022:'#8C8279',2023:'#D4AF72',2024:'#B8965A'};
+const CREAM='#FDFAF5',GRID='#EAE3D8',DARK='#1A1714',WARM='#8C8279';
+const tip=document.getElementById('tip');
+function showTip(e,txt){tip.textContent=txt;tip.style.display='block';tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY-28)+'px';}
+function hideTip(){tip.style.display='none';}
+function fmtM(v){return(v/1e6).toFixed(2)+'M€';}
+function fmtK(v){return v>=1e6?(v/1e6).toFixed(1)+'M€':(v/1e3).toFixed(0)+'k€';}
+function setupCanvas(id){
+  const canvas=document.getElementById(id);
+  const dpr=window.devicePixelRatio||1;
+  const w=canvas.parentElement.clientWidth-40;
+  const h=parseInt(canvas.getAttribute('height'));
+  canvas.width=w*dpr; canvas.height=h*dpr;
+  canvas.style.width=w+'px'; canvas.style.height=h+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  return{ctx,w,h};
+}
+function gridH(ctx,x0,y0,w,h,steps,maxV){
+  ctx.strokeStyle=GRID;ctx.lineWidth=1;
+  for(let i=0;i<=steps;i++){
+    const y=y0+h-(i/steps)*h;
+    ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x0+w,y);ctx.stroke();
+    ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.textAlign='right';
+    ctx.fillText(fmtK(maxV*i/steps),x0-5,y+4);
+  }
+}
+// MONTHLY
+(function(){
+  const{ctx,w,h}=setupCanvas('c-monthly');
+  const p={t:18,r:16,b:34,l:58},cw=w-p.l-p.r,ch=h-p.t-p.b;
+  const mx=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const maxV=Math.max(...MONTHLY.map(d=>d.v))*1.12;
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  gridH(ctx,p.l,p.t,cw,ch,4,maxV);
+  ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.textAlign='center';
+  mx.forEach((m,i)=>ctx.fillText(m,p.l+(i+.5)*(cw/12),p.t+ch+20));
+  const hits=[];
+  [2022,2023,2024].forEach(yr=>{
+    const pts=MONTHLY.filter(d=>d.y===yr).map((d,i)=>({x:p.l+(i+.5)*(cw/12),y:p.t+ch-(d.v/maxV)*ch,v:d.v,m:d.m}));
+    ctx.beginPath();ctx.moveTo(pts[0].x,p.t+ch);
+    pts.forEach(q=>ctx.lineTo(q.x,q.y));
+    ctx.lineTo(pts[11].x,p.t+ch);ctx.closePath();
+    ctx.fillStyle=YRCLR[yr]+'1a';ctx.fill();
+    ctx.beginPath();ctx.strokeStyle=YRCLR[yr];ctx.lineWidth=2.2;
+    pts.forEach((q,i)=>i===0?ctx.moveTo(q.x,q.y):ctx.lineTo(q.x,q.y));ctx.stroke();
+    pts.forEach(q=>{ctx.beginPath();ctx.arc(q.x,q.y,3.5,0,Math.PI*2);ctx.fillStyle=YRCLR[yr];ctx.fill();
+      hits.push({x:q.x,y:q.y,r:8,lbl:`${yr} M${q.m} · ${fmtM(q.v)}`});});
+  });
+  [2022,2023,2024].forEach((yr,i)=>{const lx=p.l+i*80;ctx.fillStyle=YRCLR[yr];ctx.fillRect(lx,3,16,3);ctx.fillStyle=DARK;ctx.font='9px Jost,sans-serif';ctx.textAlign='left';ctx.fillText(yr,lx+20,9);});
+  const cv=document.getElementById('c-monthly');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),mx=e.clientX-rb.left,my=e.clientY-rb.top;const h2=hits.find(a=>Math.hypot(mx-a.x,my-a.y)<a.r);h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// REGIONS
+(function(){
+  const{ctx,w,h}=setupCanvas('c-region');
+  const p={t:8,r:64,b:16,l:120},cw=w-p.l-p.r,ch=h-p.t-p.b;
+  const bh=Math.floor(ch/REGIONS.length)-5,maxV=REGIONS[0].v;
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  const hits=[];
+  REGIONS.forEach((d,i)=>{
+    const bw=(d.v/maxV)*cw,y=p.t+i*(ch/REGIONS.length)+2;
+    const clr=i===0?'#B8965A':i===1?'#C17F3E':i<4?'#D4AF72':WARM;
+    ctx.fillStyle=clr;ctx.fillRect(p.l,y,bw,bh);
+    ctx.fillStyle=DARK;ctx.font='9.5px Jost,sans-serif';ctx.textAlign='right';ctx.fillText(d.n,p.l-6,y+bh/2+4);
+    ctx.fillStyle=WARM;ctx.textAlign='left';ctx.fillText(fmtM(d.v),p.l+bw+4,y+bh/2+4);
+    hits.push({x:p.l,y,w:bw,h:bh,lbl:`${d.n} · ${fmtM(d.v)}`});
+  });
+  const cv=document.getElementById('c-region');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),mx=e.clientX-rb.left,my=e.clientY-rb.top;const h2=hits.find(a=>mx>=a.x&&mx<=a.x+a.w&&my>=a.y&&my<=a.y+a.h);h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// CATS DONUT
+(function(){
+  const{ctx,w,h}=setupCanvas('c-cat');
+  const cx=w*.37,cy=h/2,R=Math.min(cx,cy)*.84,r=R*.52,total=CATS.reduce((s,d)=>s+d.v,0);
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  let a=-Math.PI/2;const hits=[];
+  CATS.forEach((d,i)=>{
+    const sl=(d.v/total)*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a,a+sl);ctx.closePath();
+    ctx.fillStyle=C[i];ctx.fill();ctx.strokeStyle=CREAM;ctx.lineWidth=2;ctx.stroke();
+    hits.push({a0:a,a1:a+sl,lbl:`${d.n} · ${((d.v/total)*100).toFixed(1)}%`});a+=sl;
+  });
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=CREAM;ctx.fill();
+  ctx.fillStyle=DARK;ctx.font='bold 13px Cormorant Garamond,serif';ctx.textAlign='center';ctx.fillText('85M€',cx,cy+2);
+  ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.fillText('CA total',cx,cy+13);
+  const lx=w*.67;
+  CATS.forEach((d,i)=>{const ly=12+i*30;ctx.fillStyle=C[i];ctx.fillRect(lx,ly,9,9);ctx.fillStyle=DARK;ctx.font='9px Jost,sans-serif';ctx.textAlign='left';ctx.fillText(d.n,lx+13,ly+8);ctx.fillStyle=WARM;ctx.font='8.5px Jost,sans-serif';ctx.fillText(((d.v/total)*100).toFixed(1)+'%',lx+13,ly+18);});
+  const cv=document.getElementById('c-cat');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),dx=e.clientX-rb.left-cx,dy=e.clientY-rb.top-cy,dist=Math.hypot(dx,dy);if(dist<r||dist>R)return hideTip();let ang=Math.atan2(dy,dx);if(ang<-Math.PI/2)ang+=Math.PI*2;const a0=-Math.PI/2;let norm=ang-a0;if(norm<0)norm+=Math.PI*2;const h2=hits.find(h=>{let h0=h.a0-a0;if(h0<0)h0+=Math.PI*2;let h1=h.a1-a0;if(h1<0)h1+=Math.PI*2;return norm>=h0&&norm<=h1;});h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// SEASON
+(function(){
+  const{ctx,w,h}=setupCanvas('c-season');
+  const p={t:28,r:16,b:34,l:56},cw=w-p.l-p.r,ch=h-p.t-p.b;
+  const bw=cw/SEASONS.length*.6,gap=cw/SEASONS.length,maxV=Math.max(...SEASONS.map(d=>d.v))*1.15;
+  const clrs=['#8C8279','#D4AF72','#C17F3E','#B8965A'];
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);gridH(ctx,p.l,p.t,cw,ch,4,maxV);
+  const hits=[];
+  SEASONS.forEach((d,i)=>{
+    const x=p.l+i*gap+(gap-bw)/2,bh2=(d.v/maxV)*ch,y=p.t+ch-bh2;
+    ctx.fillStyle=clrs[i];ctx.fillRect(x,y,bw,bh2);
+    ctx.fillStyle=WARM;ctx.font='9.5px Jost,sans-serif';ctx.textAlign='center';ctx.fillText(d.n,x+bw/2,p.t+ch+20);
+    ctx.fillStyle=DARK;ctx.font='bold 9px Jost,sans-serif';ctx.fillText(fmtM(d.v),x+bw/2,y-5);
+    hits.push({x,y,w:bw,h:bh2,lbl:`${d.n} · ${fmtM(d.v)}`});
+  });
+  const cv=document.getElementById('c-season');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),mx=e.clientX-rb.left,my=e.clientY-rb.top;const h2=hits.find(a=>mx>=a.x&&mx<=a.x+a.w&&my>=a.y&&my<=a.y+a.h);h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// PRODUCTS
+(function(){
+  const{ctx,w,h}=setupCanvas('c-prod');
+  const p={t:8,r:72,b:8,l:102},cw=w-p.l-p.r,ch=h-p.t-p.b;
+  const bh=Math.floor(ch/PRODS.length)-5,maxV=PRODS[0].v;
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  const hits=[];
+  PRODS.forEach((d,i)=>{
+    const bw=(d.v/maxV)*cw,y=p.t+i*(ch/PRODS.length)+2;
+    const clr=i<2?'#B8965A':i<4?'#C17F3E':'#8C8279';
+    ctx.fillStyle=clr;ctx.fillRect(p.l,y,bw,bh);
+    ctx.fillStyle=DARK;ctx.font='9.5px Jost,sans-serif';ctx.textAlign='right';ctx.fillText(d.n,p.l-5,y+bh/2+4);
+    ctx.fillStyle=WARM;ctx.textAlign='left';ctx.fillText(fmtM(d.v),p.l+bw+4,y+bh/2+4);
+    hits.push({x:p.l,y,w:bw,h:bh,lbl:`${d.n} · ${fmtM(d.v)}`});
+  });
+  const cv=document.getElementById('c-prod');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),mx=e.clientX-rb.left,my=e.clientY-rb.top;const h2=hits.find(a=>mx>=a.x&&mx<=a.x+a.w&&my>=a.y&&my<=a.y+a.h);h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// SEGMENTS DONUT
+(function(){
+  const{ctx,w,h}=setupCanvas('c-seg');
+  const cx=w*.34,cy=h/2,R=Math.min(cx,cy)*.84,r=R*.5,total=SEGS.reduce((s,d)=>s+d.v,0);
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  let a=-Math.PI/2;const hits=[];
+  SEGS.forEach((d,i)=>{
+    const sl=(d.v/total)*Math.PI*2,clr=SEGC[d.n]||'#8C8279';
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a,a+sl);ctx.closePath();
+    ctx.fillStyle=clr;ctx.fill();ctx.strokeStyle=CREAM;ctx.lineWidth=2;ctx.stroke();
+    hits.push({a0:a,a1:a+sl,lbl:`${d.n} · ${d.v} clients (${((d.v/total)*100).toFixed(0)}%)`});a+=sl;
+  });
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=CREAM;ctx.fill();
+  ctx.fillStyle=DARK;ctx.font='bold 12px Cormorant Garamond,serif';ctx.textAlign='center';ctx.fillText('2 982',cx,cy+2);
+  ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.fillText('clients',cx,cy+13);
+  const lx=w*.62;
+  SEGS.forEach((d,i)=>{const ly=16+i*40,clr=SEGC[d.n]||'#8C8279';ctx.fillStyle=clr;ctx.fillRect(lx,ly,9,9);ctx.fillStyle=DARK;ctx.font='10px Jost,sans-serif';ctx.textAlign='left';ctx.fillText(d.n,lx+13,ly+9);ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.fillText(`${d.v} · ${((d.v/total)*100).toFixed(0)}%`,lx+13,ly+20);});
+  const cv=document.getElementById('c-seg');
+  cv.onmousemove=e=>{const rb=cv.getBoundingClientRect(),dx=e.clientX-rb.left-cx,dy=e.clientY-rb.top-cy,dist=Math.hypot(dx,dy);if(dist<r||dist>R)return hideTip();let ang=Math.atan2(dy,dx);if(ang<-Math.PI/2)ang+=Math.PI*2;const a0=-Math.PI/2;let norm=ang-a0;if(norm<0)norm+=Math.PI*2;const h2=hits.find(h=>{let h0=h.a0-a0;if(h0<0)h0+=Math.PI*2;let h1=h.a1-a0;if(h1<0)h1+=Math.PI*2;return norm>=h0&&norm<=h1;});h2?showTip(e,h2.lbl):hideTip();};
+  cv.onmouseleave=hideTip;
+})();
+// RFM
+function drawRFM(){
+  const{ctx,w,h}=setupCanvas('c-rfm');
+  const p={t:26,r:16,b:46,l:60},cw=w-p.l-p.r,ch=h-p.t-p.b;
+  const dims=[{k:'freq',lbl:'Fréquence moy.'},{k:'mon',lbl:'Montant moyen (€)'}];
+  const n=dims.length,m=RFM.length;
+  ctx.fillStyle=CREAM;ctx.fillRect(0,0,w,h);
+  const maxVals=dims.map(d=>Math.max(...RFM.map(r=>r[d.k]))*1.2);
+  dims.forEach((dim,di)=>{
+    const maxV=maxVals[di],gx=p.l+di*(cw/n),gw=cw/n;
+    ctx.strokeStyle=GRID;ctx.lineWidth=1;
+    [0,.25,.5,.75,1].forEach(f=>{const y=p.t+ch-f*ch;ctx.beginPath();ctx.moveTo(gx,y);ctx.lineTo(gx+gw,y);ctx.stroke();});
+    ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.textAlign='center';ctx.fillText(dim.lbl,gx+gw/2,p.t+ch+28);
+    const bw2=gw/(m+1)*.9;
+    RFM.forEach((seg,si)=>{const bh=(seg[dim.k]/maxV)*ch,x=gx+(si+.5)*(gw/(m+1)),y=p.t+ch-bh;ctx.fillStyle=SEGC[seg.n]||C[si];ctx.fillRect(x,y,bw2,bh);});
+  });
+  ctx.fillStyle=WARM;ctx.font='9px Jost,sans-serif';ctx.textAlign='right';
+  [0,.25,.5,.75,1].forEach(f=>{const y=p.t+ch-f*ch;ctx.fillText((maxVals[0]*f).toFixed(1),p.l-4,y+4);});
+  RFM.forEach((seg,i)=>{const lx=p.l+i*(cw/4);ctx.fillStyle=SEGC[seg.n]||C[i];ctx.fillRect(lx,4,8,8);ctx.fillStyle=DARK;ctx.font='8.5px Jost,sans-serif';ctx.textAlign='left';ctx.fillText(seg.n,lx+11,12);});
+}
+function showTab(group,pane,btn){
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(el=>el.classList.remove('on'));
+  btn.closest('.card').querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(`${group}-${pane}`).classList.add('on');
+  btn.classList.add('on');
+  if(pane==='rfm') drawRFM();
+}
+</script>
+    </div>
+    <p style="color:#5A5550; font-size:0.65rem; letter-spacing:0.1em; margin-top:10px; text-align:center;">Les données présentées sont entièrement simulées à des fins analytiques.</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Parcours</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Avril 2024 — Septembre 2024</div>
+      <div class="timeline-role">Data Analyst / Analytics Engineer — Stage de fin d'études</div>
+      <div class="timeline-company">Per Sé Beauty · Prose inc. · Paris</div>
+      <div class="timeline-achievements">
+        <div class="achievement">Intégration end-to-end de la variable "Water Hardness" dans GeoBeauty, le système de personnalisation produit de Prose : modèle BigQuery, modélisation dbt, pipeline Airflow, déploiement en production sur 3 pays (US, Canada, UK).</div>
+        <div class="achievement">Développement du modèle d'interpolation KNN géospatiale (k=4 stations, rayon 200 km) pour estimer la dureté de l'eau dans les zones sans mesure directe.</div>
+        <div class="achievement">Orchestration des workflows ETL via des DAGs Airflow, avec intégration d'APIs environnementales (OpenWeatherMap, Breezometer) et données Python hardcoded.</div>
+        <div class="achievement">Suivi qualité via dbt : 5 000+ tests, monitoring des schémas et de la fraîcheur des tables, traçabilité complète via GitLab CI/CD.</div>
+        <div class="achievement">Collaboration avec les équipes Data Engineering, Produit et Métiers sur des sujets critiques de gouvernance et de fiabilité des données.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Septembre 2021 — Juillet 2022</div>
+      <div class="timeline-role">Data Analyst / Data Product Developer</div>
+      <div class="timeline-company">EGCE · Casablanca, Maroc</div>
+      <div class="timeline-achievements">
+        <div class="achievement">Analyse et exploitation de données multi-sources (SQL, Excel, outils métiers) pour le pilotage des activités.</div>
+        <div class="achievement">Création de reportings automatisés et mise en place de contrôles pour sécuriser et fiabiliser les données.</div>
+        <div class="achievement">Optimisation des processus de collecte et de consolidation des données.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="education" id="education">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2 class="section-title">Formation</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-year">2024</div>
+      <div class="edu-degree">Master Statistiques pour l'Évaluation et la Prévision</div>
+      <div class="edu-school">Université de Reims Champagne-Ardenne · Big Data, ML, BI, Séries temporelles</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2022</div>
+      <div class="edu-degree">Licence Mathématiques Appliquées</div>
+      <div class="edu-school">Université de Reims Champagne-Ardenne</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2025</div>
+      <div class="edu-degree">Google Data Analytics Professional Certificate</div>
+      <div class="edu-school">Google · SQL · Data Quality · Analysis · Reporting (en cours)</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-eyebrow">Disponible pour une nouvelle aventure</div>
+  <h2 class="contact-headline">
+    Construisons quelque chose<br>
+    <em>d'exceptionnel</em> ensemble.
+  </h2>
+  <span class="contact-email"><a href="mailto:aagour.fati@gmail.com" style="color:inherit;text-decoration:none;">aagour.fati@gmail.com</a></span>
+  <div class="contact-links">
+    <a href="tel:+33766441881" class="contact-link">+33 7 66 44 18 81</a>
+    <a href="https://www.linkedin.com/in/fatima-zahra-aagour/" target="_blank" class="contact-link">LinkedIn</a>
+  </div>
+  <div class="footer-line"></div>
+  <p class="footer-copy">© 2025 Fatima Aagour · Data Analyst · Paris</p>
+</section>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover effects
+  document.querySelectorAll('a, button, .skill-card, .project-card, .edu-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px'; cursor.style.height = '16px';
+      ring.style.width = '50px'; ring.style.height = '50
